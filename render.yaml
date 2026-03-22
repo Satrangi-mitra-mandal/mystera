@@ -1,26 +1,16 @@
 # render.yaml — Render.com deployment config for DetectiveOS backend
-# Docs: https://render.com/docs/blueprint-spec
-#
-# HOW TO USE:
-#   1. Push this file to your GitHub repo root
-#   2. Go to https://render.com → New → Blueprint
-#   3. Connect your repo — Render reads this file automatically
-
 services:
-  # ── FastAPI Backend ────────────────────────────────────────────────────────
   - type: web
     name: detectiveos-api
     env: python
-    region: oregon            # or: frankfurt, singapore, ohio
-    plan: free                # free tier: spins down after 15 min inactivity
+    region: oregon
+    plan: free
+    pythonVersion: "3.11.9"
 
-    # Render runs these from the repo root
     rootDir: backend
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
 
-    # Environment variables — set values in the Render dashboard
-    # Never put real secrets in this file
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -28,10 +18,10 @@ services:
           property: connectionString
 
       - key: ANTHROPIC_API_KEY
-        sync: false           # you paste this manually in the Render dashboard
+        sync: false
 
       - key: JWT_SECRET
-        generateValue: true   # Render auto-generates a secure random value
+        generateValue: true
 
       - key: JWT_ALGORITHM
         value: HS256
@@ -43,15 +33,10 @@ services:
         value: production
 
       - key: CORS_ORIGINS
-        value: https://your-app.vercel.app   # ← REPLACE with your Vercel URL
+        value: https://your-app.vercel.app
 
-    # Run migrations + seed automatically after every deploy
-    # Comment out "python -m app.db.seed" after first deploy to avoid duplicates
-    preDeployCommand: cd backend && alembic upgrade head && python -m app.db.seed
-
-  # ── PostgreSQL Database ────────────────────────────────────────────────────
 databases:
-  - name: detectiveos-db
-    databaseName: detectiveos
+  - name: mystera-db
+    databaseName: mystera
     user: detective
-    plan: free                # free tier: 1GB storage, 97 connection limit
+    plan: free
