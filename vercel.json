@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "mystera-frontend",
+  "name": "detectiveos-frontend",
   "builds": [
     {
       "src": "frontend/**",
