@@ -14,7 +14,7 @@ from app.db.database import SessionLocal, engine
 from app.models import Base, Case, Suspect, Evidence, User
 from app.utils.auth import hash_password
 
-CASES_DIR = Path(__file__).resolve().parents[3] / "case-templates"
+CASES_DIR = Path(os.getcwd()) / "case-templates"
 CASE_FILES = [
     "midnight-manor.json",
     "harbor-street-blackout.json",
